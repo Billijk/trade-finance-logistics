@@ -38,6 +38,15 @@ func getLCKey(stub shim.ChaincodeStubInterface, tradeID string) (string, error) 
 	}
 }
 
+func getAcceptedLCKey(stub shim.ChaincodeStubInterface, tradeID string) (string, error) {
+	lcKey, err := stub.CreateCompositeKey("AcceptedLetterOfCredit", []string{tradeID})
+	if err != nil {
+		return "", err
+	} else {
+		return lcKey, nil
+	}
+}
+
 func getELKey(stub shim.ChaincodeStubInterface, tradeID string) (string, error) {
 	elKey, err := stub.CreateCompositeKey("ExportLicense", []string{tradeID})
 	if err != nil {

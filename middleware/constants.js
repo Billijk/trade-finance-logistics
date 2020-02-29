@@ -80,6 +80,38 @@ var FIVE_ORG_MEMBERS_AND_ADMIN = [{
 	}
 }];
 
+var EXTENDED_MEMBERS_AND_ADMIN = [{
+	role: {
+		name: 'member',
+		mspId: 'ExporterOrgMSP'
+	}
+}, {
+	role: {
+		name: 'member',
+		mspId: 'LenderOrgMSP'
+	}
+}, {
+	role: {
+		name: 'member',
+		mspId: 'ImporterOrgMSP'
+	}
+}, {
+	role: {
+		name: 'member',
+		mspId: 'CarrierOrgMSP'
+	}
+}, {
+	role: {
+		name: 'member',
+		mspId: 'RegulatorOrgMSP'
+	}
+}, {
+	role: {
+		name: 'admin',
+		mspId: 'TradeOrdererMSP'
+	}
+}];
+
 var ONE_OF_FOUR_ORG_MEMBER = {
 	identities: FOUR_ORG_MEMBERS_AND_ADMIN,
 	policy: {
@@ -96,6 +128,13 @@ var ALL_FOUR_ORG_MEMBERS = {
 
 var ALL_FIVE_ORG_MEMBERS = {
 	identities: FIVE_ORG_MEMBERS_AND_ADMIN,
+	policy: {
+		'5-of': [{ 'signed-by': 0 }, { 'signed-by': 1 }, { 'signed-by': 2 }, { 'signed-by': 3 }, { 'signed-by': 4 }]
+	}
+};
+
+var EXTENDED_SCENARIO_MEMBERS = {
+	identities: EXTENDED_MEMBERS_AND_ADMIN,
 	policy: {
 		'5-of': [{ 'signed-by': 0 }, { 'signed-by': 1 }, { 'signed-by': 2 }, { 'signed-by': 3 }, { 'signed-by': 4 }]
 	}
@@ -130,6 +169,7 @@ var EXPORTER_ORG = 'exporterorg';
 var EXPORTING_ENTITY_ORG = 'exportingentityorg';
 var CARRIER_ORG = 'carrierorg';
 var REGULATOR_ORG = 'regulatororg';
+var LENDER_ORG = 'lenderorg';
 
 var CHANNEL_NAME = 'tradechannel';
 var CHAINCODE_PATH = 'github.com/trade_workflow';
@@ -138,7 +178,7 @@ var CHAINCODE_VERSION = 'v0';
 var CHAINCODE_UPGRADE_PATH = 'github.com/trade_workflow_v1';
 var CHAINCODE_UPGRADE_VERSION = 'v1';
 
-var TRANSACTION_ENDORSEMENT_POLICY = ALL_FOUR_ORG_MEMBERS;
+var TRANSACTION_ENDORSEMENT_POLICY = EXTENDED_SCENARIO_MEMBERS;
 
 module.exports = {
 	tempdir: tempdir,
@@ -152,6 +192,7 @@ module.exports = {
 	EXPORTING_ENTITY_ORG: EXPORTING_ENTITY_ORG,
 	CARRIER_ORG: CARRIER_ORG,
 	REGULATOR_ORG: REGULATOR_ORG,
+	LENDER_ORG: LENDER_ORG,
 	CHANNEL_NAME: CHANNEL_NAME,
 	CHAINCODE_PATH: CHAINCODE_PATH,
 	CHAINCODE_ID: CHAINCODE_ID,

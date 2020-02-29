@@ -17,12 +17,13 @@
 package main
 
 import (
-	"fmt"
-	"errors"
-	"github.com/golang/protobuf/proto"
-	"github.com/hyperledger/fabric/protos/msp"
 	"crypto/x509"
 	"encoding/pem"
+	"errors"
+	"fmt"
+
+	"github.com/golang/protobuf/proto"
+	"github.com/hyperledger/fabric/protos/msp"
 )
 
 func getTxCreatorInfo(creator []byte) (string, string, error) {
@@ -49,7 +50,6 @@ func getTxCreatorInfo(creator []byte) (string, string, error) {
 	return creatorSerializedId.Mspid, cert.Issuer.CommonName, nil
 }
 
-
 // For now, just hardcode an ACL
 // We will support attribute checks in an upgrade
 
@@ -67,4 +67,8 @@ func authenticateCarrierOrg(mspID string, certCN string) bool {
 
 func authenticateRegulatorOrg(mspID string, certCN string) bool {
 	return (mspID == "RegulatorOrgMSP") && (certCN == "ca.regulatororg.trade.com")
+}
+
+func authenticateLenderOrg(mspID string, certCN string) bool {
+	return (mspID == "LenderOrgMSP") && (certCN == "ca.lenderorg.trade.com")
 }

@@ -346,6 +346,10 @@ function replacePrivateKey () {
       PRIV_KEY=$(ls *_sk)
       cd "$CURRENT_DIR"
       sed -i '' "s/REGULATOR_CA_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
+      cd crypto-config/peerOrganizations/lenderorg.trade.com/ca/
+      PRIV_KEY=$(ls *_sk)
+      cd "$CURRENT_DIR"
+      sed -i '' "s/LENDER_CA_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
     else
       CURRENT_DIR=$PWD
       cd crypto-config/peerOrganizations/exporterorg.trade.com/ca/
@@ -364,6 +368,10 @@ function replacePrivateKey () {
       PRIV_KEY=$(ls *_sk)
       cd "$CURRENT_DIR"
       sed -i "s/REGULATOR_CA_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
+      cd crypto-config/peerOrganizations/lenderorg.trade.com/ca/
+      PRIV_KEY=$(ls *_sk)
+      cd "$CURRENT_DIR"
+      sed -i "s/LENDER_CA_PRIVATE_KEY/${PRIV_KEY}/g" docker-compose-e2e.yaml
     fi
   fi
 }
@@ -597,7 +605,22 @@ function generateChannelArtifacts() {
       echo "Failed to generate anchor peer update for RegulatorOrgMSP..."
       exit 1
     fi
+
     echo
+    echo "######################################################################"
+    echo "#######  Generating anchor peer update for LenderOrgMSP  ##########"
+    echo "######################################################################"
+    set -x
+    configtxgen -profile $CHANNEL_PROFILE -outputAnchorPeersUpdate \
+    ./channel-artifacts/LenderOrgMSPanchors.tx -channelID $CHANNEL_NAME -asOrg LenderOrgMSP -channelID $CHANNEL_NAME
+    res=$?
+    set +x
+    if [ $res -ne 0 ]; then
+      echo "Failed to generate anchor peer update for LenderOrgMSP..."
+      exit 1
+    fi
+    echo
+    
   fi
 }
 
